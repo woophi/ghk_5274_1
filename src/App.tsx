@@ -4,23 +4,29 @@ import { Checkbox } from '@alfalab/core-components/checkbox';
 import { Collapse } from '@alfalab/core-components/collapse';
 import { Gap } from '@alfalab/core-components/gap';
 import { Input } from '@alfalab/core-components/input';
+import { List } from '@alfalab/core-components/list';
 import { PureCell } from '@alfalab/core-components/pure-cell';
 import { Steps } from '@alfalab/core-components/steps';
 import { Tag } from '@alfalab/core-components/tag';
 import { Typography } from '@alfalab/core-components/typography';
+import { CheckmarkMIcon } from '@alfalab/icons-glyph/CheckmarkMIcon';
 import { ChevronDownMIcon } from '@alfalab/icons-glyph/ChevronDownMIcon';
 import { ChevronUpMIcon } from '@alfalab/icons-glyph/ChevronUpMIcon';
 import { OutsideMIcon } from '@alfalab/icons-glyph/OutsideMIcon';
 import { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import hb from './assets/hb.png';
+import img1 from './assets/img1.png';
+import img2 from './assets/img2.png';
+import img3 from './assets/img3.png';
+import img4 from './assets/img4.png';
+import pds from './assets/pds.png';
 import pers from './assets/pers.png';
 import piec from './assets/piec.png';
 import rubd from './assets/rubd.png';
 import wes from './assets/wes.png';
 import { LS, LSKeys } from './ls';
 import { appSt } from './style.css';
-import { ThxLayout } from './thx/ThxLayout';
 import { sendDataToGACalc } from './utils/events';
 import { round } from './utils/round';
 
@@ -46,6 +52,13 @@ const MAX_GOV_SUPPORT = 360000;
 const TAX = 0.13;
 const INVEST_DURATION = 15;
 const INTEREST_RATE = 0.07;
+
+const checks = [
+  'Застрахованы на сумму до 2,8 млн ₽ в Агентстве по страхованию вкладов',
+  'Полностью наследуются на этапе накопления или выплат (кроме назначения пожизненной выплаты)',
+  'Не делятся при разводе, на них не может быть наложено взыскание и арест',
+  'Негосударственный пенсионный фонд (НПФ) гарантирует безубыточность вложений на горизонте каждых пяти лет',
+];
 
 function calculateSumContributions(monthlyPayment: number, additionalContribution: number): number {
   return round(additionalContribution + monthlyPayment * 11 + monthlyPayment * 12 * (INVEST_DURATION - 1), 2);
@@ -107,10 +120,9 @@ export const App = () => {
   }, []);
 
   const submit = () => {
-    window.gtag('event', '4581_confirm_var1');
+    window.gtag('event', '5274_confirm_var1');
     setLoading(true);
 
-    LS.setItem(LSKeys.ShowThx, true);
     setLoading(false);
     window.location.replace(
       'alfabank://multistep-route?fromModule=FORM&stepNumber=0&alias=invest-long-term-savings-open-alias&prefilledDataID=1001&version=2',
@@ -140,7 +152,7 @@ export const App = () => {
   };
 
   const openCalc = () => {
-    window.gtag('event', '4581_calc_var1');
+    window.gtag('event', '5274_calc_var1');
     setOpenBs(true);
   };
 
@@ -151,20 +163,105 @@ export const App = () => {
     });
   };
 
-  if (LS.getItem(LSKeys.ShowThx, false)) {
-    return <ThxLayout />;
-  }
-
   return (
     <>
       <div className={appSt.container}>
-        <img src={hb} alt="hb" width="100%" height={226} className={appSt.img} />
-        <Typography.TitleResponsive tag="h1" view="large" font="system" weight="semibold">
-          Программа долгосрочных сбережений
+        <div className={appSt.imgBox}>
+          <Typography.TitleResponsive style={{ maxWidth: '311px' }} tag="h1" view="medium" font="system" weight="bold">
+            Создайте начальный капитал для детей
+          </Typography.TitleResponsive>
+          <Typography.Text style={{ maxWidth: '311px' }}>Программа долгосрочных сбережений</Typography.Text>
+          <img src={hb} alt="hb" width="100%" height={114} className={appSt.img} />
+
+          <div className={appSt.imgSubBox}>
+            <Typography.Text>
+              Более 1 млн семей
+              <br />
+              за 2024 оформили ПДС
+            </Typography.Text>
+          </div>
+        </div>
+
+        <div>
+          <Typography.TitleResponsive tag="h2" view="small" font="system" weight="medium" style={{ marginBottom: '.5rem' }}>
+            Описание программы:
+          </Typography.TitleResponsive>
+          <Typography.Text view="primary-medium">
+            Программа долгосрочных сбережений (ПДС) – это удобный способ накопить средства для будущего ваших детей.
+          </Typography.Text>
+        </div>
+
+        <Typography.TitleResponsive style={{ marginTop: '1rem' }} tag="h2" view="small" font="system" weight="medium">
+          Копите на любые цели
         </Typography.TitleResponsive>
-        <Typography.Text>
-          Откладывайте с выгодой: получите процент на вклад, поддержку от государства и налоговый вычет
-        </Typography.Text>
+
+        <PureCell className={appSt.blueBox}>
+          <PureCell.Content>
+            <PureCell.Main>
+              <Typography.Text view="primary-small" tag="p" weight="bold" defaultMargins={false}>
+                Высшее образование
+              </Typography.Text>
+              <Typography.Text view="component-secondary" color="secondary">
+                Позаботьтесь о платном обучении ребенка в ВУЗе
+              </Typography.Text>
+            </PureCell.Main>
+          </PureCell.Content>
+          <PureCell.Graphics verticalAlign="center">
+            <img src={img1} width={115} height={72} alt="img1" className={appSt.blueBoxImg} />
+          </PureCell.Graphics>
+        </PureCell>
+
+        <PureCell className={appSt.blueBox}>
+          <PureCell.Content>
+            <PureCell.Main>
+              <Typography.Text view="primary-small" tag="p" weight="bold" defaultMargins={false}>
+                Стартовый капитал
+              </Typography.Text>
+              <Typography.Text view="component-secondary" color="secondary">
+                Ваши инвестиции — основа бизнеса ребенка завтра
+              </Typography.Text>
+            </PureCell.Main>
+          </PureCell.Content>
+          <PureCell.Graphics verticalAlign="center">
+            <img src={img2} width={115} height={72} alt="img2" className={appSt.blueBoxImg} />
+          </PureCell.Graphics>
+        </PureCell>
+
+        <PureCell className={appSt.blueBox}>
+          <PureCell.Content>
+            <PureCell.Main>
+              <Typography.Text view="primary-small" tag="p" weight="bold" defaultMargins={false}>
+                Своя квартира
+              </Typography.Text>
+              <Typography.Text view="component-secondary" color="secondary">
+                Помогите сформировать первоначальный взнос
+              </Typography.Text>
+            </PureCell.Main>
+          </PureCell.Content>
+          <PureCell.Graphics verticalAlign="center">
+            <img src={img3} width={115} height={72} alt="img3" className={appSt.blueBoxImg} />
+          </PureCell.Graphics>
+        </PureCell>
+
+        <PureCell className={appSt.blueBox}>
+          <PureCell.Content>
+            <PureCell.Main>
+              <Typography.Text view="primary-small" tag="p" weight="bold" defaultMargins={false}>
+                Свадьба
+              </Typography.Text>
+              <Typography.Text view="component-secondary" color="secondary">
+                Организайте ребенку достойный праздник
+              </Typography.Text>
+            </PureCell.Main>
+          </PureCell.Content>
+          <PureCell.Graphics verticalAlign="center">
+            <img src={img4} width={115} height={72} alt="img4" className={appSt.blueBoxImg} />
+          </PureCell.Graphics>
+        </PureCell>
+
+        <Typography.TitleResponsive style={{ marginTop: '1rem' }} tag="h2" view="small" font="system" weight="medium">
+          Плюсы программы:
+        </Typography.TitleResponsive>
 
         <PureCell>
           <PureCell.Graphics verticalAlign="center">
@@ -173,10 +270,10 @@ export const App = () => {
           <PureCell.Content>
             <PureCell.Main>
               <Typography.Text view="primary-medium" tag="p" defaultMargins={false}>
-                Доходность
+                До 360 000 ₽
               </Typography.Text>
               <Typography.Text view="primary-small" color="secondary">
-                21,56% годовых
+                Добавит государство — как на счёт взрослого, так и ребёнка
               </Typography.Text>
             </PureCell.Main>
           </PureCell.Content>
@@ -189,10 +286,10 @@ export const App = () => {
           <PureCell.Content>
             <PureCell.Main>
               <Typography.Text view="primary-medium" tag="p" defaultMargins={false}>
-                Софинансирование
+                До 1 320 000 ₽
               </Typography.Text>
               <Typography.Text view="primary-small" color="secondary">
-                до 36 000 ₽ в год
+                Счёт на ребёнка даёт право на увеличенный налоговый вычет
               </Typography.Text>
             </PureCell.Main>
           </PureCell.Content>
@@ -205,10 +302,10 @@ export const App = () => {
           <PureCell.Content>
             <PureCell.Main>
               <Typography.Text view="primary-medium" tag="p" defaultMargins={false}>
-                Налоговый вычет
+                21,56% годовых
               </Typography.Text>
               <Typography.Text view="primary-small" color="secondary">
-                от 13% до 22% от суммы взносов, до 88 000 ₽ в год
+                Инвестиционный доход за 2024 год
               </Typography.Text>
             </PureCell.Main>
           </PureCell.Content>
@@ -220,10 +317,10 @@ export const App = () => {
           <PureCell.Content>
             <PureCell.Main>
               <Typography.Text view="primary-medium" tag="p" defaultMargins={false}>
-                Накопления под защитой
+                Деньги под защитой
               </Typography.Text>
               <Typography.Text view="primary-small" color="secondary">
-                На сумму до 2 800 000 ₽
+                Застрахованы на сумму до 2,8 млн ₽
               </Typography.Text>
             </PureCell.Main>
           </PureCell.Content>
@@ -235,7 +332,7 @@ export const App = () => {
               {total ? total.toLocaleString('ru') : 'X'} ₽
             </Typography.TitleResponsive>
             <Typography.Text view="primary-small" color="secondary">
-              Накопите к 2040 году при ежемесячном пополнении в 2000 ₽
+              Накопите на семейных счетах к 2040 году при ежемесячном пополнении в 2000 ₽
             </Typography.Text>
           </div>
 
@@ -266,7 +363,7 @@ export const App = () => {
           </span>
           <span>
             <Typography.Text tag="p" defaultMargins={false} view="primary-medium">
-              Государство добавляет до 36 000 ₽ в год и возвращает налоговый вычет до 88 000 ₽
+              Государство добавляет до 36 000 ₽ в год на взрослый и детский счета и возвращает повышенный налоговый вычет
             </Typography.Text>
             <Typography.Text view="primary-small" color="secondary">
               Гос.поддержку можно получать до 10 лет, а налоговый вычет — минимум 15 лет
@@ -280,6 +377,7 @@ export const App = () => {
               view="primary-small"
               color="secondary"
               onClick={() => {
+                window.gtag('event', '5274_income_var1');
                 window.location.replace('alfabank://longread?endpoint=v1/adviser/longreads/46688');
               }}
               style={{
@@ -292,13 +390,109 @@ export const App = () => {
           </span>
         </Steps>
 
-        <Typography.TitleResponsive tag="h3" view="small" font="system" weight="medium">
+        <PureCell className={appSt.blueBox}>
+          <PureCell.Content>
+            <PureCell.Main>
+              <Typography.Text
+                view="primary-small"
+                weight="bold"
+                tag="p"
+                defaultMargins={false}
+                style={{ marginBottom: '0.25rem' }}
+              >
+                Альфа-Вклад с ПДС
+              </Typography.Text>
+              <Typography.Text view="secondary-large">
+                Получите повышенную ставку по вкладу с программой долгосрочных сбережений
+              </Typography.Text>
+            </PureCell.Main>
+          </PureCell.Content>
+          <PureCell.Graphics verticalAlign="center">
+            <img src={pds} width={90} height={74} alt="pds" />
+          </PureCell.Graphics>
+        </PureCell>
+
+        <div style={{ marginTop: '1rem' }}>
+          <Typography.TitleResponsive tag="h3" view="small" font="system" weight="medium" style={{ marginBottom: '.5rem' }}>
+            Деньги под защитой
+          </Typography.TitleResponsive>
+          {checks.map((check, index) => (
+            <PureCell key={index} verticalPadding="compact">
+              <PureCell.Graphics verticalAlign="center">
+                <CheckmarkMIcon color="#0D9336" />
+              </PureCell.Graphics>
+              <PureCell.Content>
+                <PureCell.Main>
+                  <Typography.Text view="primary-medium">{check}</Typography.Text>
+                </PureCell.Main>
+              </PureCell.Content>
+            </PureCell>
+          ))}
+        </div>
+
+        <div style={{ marginTop: '1rem' }}>
+          <Typography.TitleResponsive tag="h3" view="small" font="system" weight="medium" style={{ marginBottom: '1rem' }}>
+            Какие бывают выплаты
+          </Typography.TitleResponsive>
+
+          <div className={appSt.blueBox2}>
+            <Typography.TitleResponsive tag="h4" view="xsmall" font="system" weight="semibold">
+              Единовременно
+            </Typography.TitleResponsive>
+            <List tag="ol" colorMarker="accent">
+              <List.Item>
+                <Typography.Text view="primary-small">Через 15 лет после того, как вступили в программу</Typography.Text>
+              </List.Item>
+              <List.Item>
+                <Typography.Text view="primary-small">
+                  При достижении 55 лет у женщин и 60 лет у мужчин, если с начала участия прошло менее 15 лет, а выплата —
+                  менее 10% прожиточного минимума
+                </Typography.Text>
+              </List.Item>
+            </List>
+          </div>
+
+          <Gap size={16} />
+
+          <div className={appSt.blueBox2}>
+            <Typography.TitleResponsive tag="h4" view="xsmall" font="system" weight="semibold">
+              Регулярно
+            </Typography.TitleResponsive>
+            <Typography.Text view="primary-small">
+              Все накопления делят на ежемесячные выплаты, период вы выбираете сами — от 5 лет:
+            </Typography.Text>
+            <Typography.Text view="primary-small">
+              <b>Срочные.</b> Доступны через 15 лет после вступления в программу долгосрочных сбережений
+            </Typography.Text>
+            <Typography.Text view="primary-small">
+              <b>Дополнительные выплаты на пенсии.</b> Доступны после 55 лет у женщин и 60 — у мужчин
+            </Typography.Text>
+          </div>
+          <Gap size={16} />
+
+          <div className={appSt.blueBox2}>
+            <Typography.TitleResponsive tag="h4" view="xsmall" font="system" weight="semibold">
+              Досрочно
+            </Typography.TitleResponsive>
+            <Typography.Text view="primary-small">
+              Такая выплата доступна в случае потери кормильца или если необходимо оплатить{' '}
+              <span
+                style={{ textDecoration: 'underline' }}
+                onClick={() => window.location.replace('http://publication.pravo.gov.ru/document/0001202312010067')}
+              >
+                дорогостоящее лечение
+              </span>
+            </Typography.Text>
+          </div>
+        </div>
+
+        <Typography.TitleResponsive tag="h3" view="small" font="system" weight="medium" style={{ marginTop: '1rem' }}>
           Частые вопросы
         </Typography.TitleResponsive>
         <div style={{ marginTop: '1rem' }}>
           <div
             onClick={() => {
-              window.gtag('event', '4581_FAQ1_var1');
+              window.gtag('event', '5274_FAQ1_var1');
               setCollapsedItem(items => (items.includes('1') ? items.filter(item => item !== '1') : [...items, '1']));
             }}
             className={appSt.row}
@@ -315,7 +509,7 @@ export const App = () => {
         <div style={{ marginTop: '1rem' }}>
           <div
             onClick={() => {
-              window.gtag('event', '4581_FAQ2_var1');
+              window.gtag('event', '5274_FAQ2_var1');
               setCollapsedItem(items => (items.includes('2') ? items.filter(item => item !== '2') : [...items, '2']));
             }}
             className={appSt.row}
@@ -336,7 +530,7 @@ export const App = () => {
         <div style={{ marginTop: '1rem' }}>
           <div
             onClick={() => {
-              window.gtag('event', '4581_FAQ3_var1');
+              window.gtag('event', '5274_FAQ3_var1');
 
               setCollapsedItem(items => (items.includes('3') ? items.filter(item => item !== '3') : [...items, '3']));
             }}
@@ -356,7 +550,7 @@ export const App = () => {
         <div style={{ marginTop: '1rem' }}>
           <div
             onClick={() => {
-              window.gtag('event', '4581_FAQ4_var1');
+              window.gtag('event', '5274_FAQ4_var1');
 
               setCollapsedItem(items => (items.includes('4') ? items.filter(item => item !== '4') : [...items, '4']));
             }}
@@ -377,7 +571,7 @@ export const App = () => {
 
         <div
           onClick={() => {
-            window.gtag('event', '4581_moreinfo_var1');
+            window.gtag('event', '5274_moreinfo_var1');
             window.location.replace('https://alfa-npf.ru/');
           }}
           className={appSt.row}

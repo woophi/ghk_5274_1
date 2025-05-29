@@ -50,11 +50,11 @@ export const sendDataToGACalc = async (payload: CalcPayload) => {
     }-${now.getDate()} ${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
 
     await fetch(
-      'https://script.google.com/macros/s/AKfycbwt9MSkE3EyOQRX2WCBMDsTYsD0EjwMmo3EqLkiO-dxh8Ci_X5ZTJ8MvW0jVBAcDoceLw/exec',
+      'https://script.google.com/macros/s/AKfycbz4D29PbOu82sR1YDgHAKji4Qf6r1SvUbV34UymL9Gwi45yQ2mDZCs-HOZtTlyD1lt7/exec',
       {
         redirect: 'follow',
         method: 'POST',
-        body: JSON.stringify({ date, ...payload, id: LS.getItem(LSKeys.UserId, 0) }),
+        body: JSON.stringify({ date, ...payload, id: LS.getItem(LSKeys.UserId, 0), vari: 'var1' }),
         headers: {
           'Content-Type': 'text/plain;charset=utf-8',
         },
